@@ -1,0 +1,153 @@
+:root {
+  --bg: #ffffff;
+  --text: #1a1a1a;
+  --muted: #555;
+  --accent: #2ecc72;
+  --on-accent: #111111;
+  --panel: #f6f7f9;
+  --border: #dfe3e8;
+  --radius: 10px;
+  --maxw: 1500px;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  background: #ffffff;
+  font-size: 0.85rem;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #0f1115;
+    --text: #f2f4f8;
+    --muted: #b8c0cc;
+    --accent: #18332e; 
+	--on-accent: #ffffff;
+    --panel: #151923;
+    --border: #2a3140;
+  }
+  table {
+    background: var(--panel);
+  }
+
+}
+
+/* body */
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: Arial, sans-serif;
+  line-height: 1.6;
+}
+
+/* sections */
+.site-header, .site-footer {
+  padding: 1.5rem 1rem;
+  background: var(--panel);
+  text-align: center;
+  border-bottom: 1px solid var(--border);
+}
+.site-footer {
+  border-top: 1px solid var(--border);
+  border-bottom: 0;
+}
+
+.layout {
+  max-width: var(--maxw);
+  margin: 0 auto;
+  padding: 1rem 0.5rem;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.5rem;
+}
+
+/* responsive */
+@media (min-width: 900px) {
+  .layout {
+    grid-template-columns: 1.6fr 1fr;
+  }
+}
+
+/* side panels */
+.map-panel, .story {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1.5rem;
+}
+
+/* map */
+.map-figure img {
+  width: 100%;
+  height: auto;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  background: #fff;
+  padding: 4px;
+}
+
+.map-figure figcaption {
+  margin-top: 0.5rem;
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
+/* slider/button controls */
+.controls fieldset {
+  border: 1px dashed var(--border);
+  border-radius: var(--radius);
+  padding: 1rem;
+}
+
+.slider-row {
+  margin-bottom: 1rem;
+}
+
+#frameSlider {
+  width: 100%;
+}
+
+.buttons-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+/* buttons */
+button {
+  background: var(--accent);
+  color: var(--on-accent);
+  border: 1px solid #27ae60;
+  padding: 0.6rem 0.9rem;
+  border-radius: 6px;
+  cursor: pointer;
+}
+button:hover {
+  opacity: 0.8;
+}
+
+/* table */
+.table-wrapper {
+  overflow-x: auto;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+}
+
+
+h2 {
+  text-align: center;
+}
+
+
+th, td {
+  padding: 0.6rem;
+  border-bottom: 1px solid var(--border);
+}
+
+th {
+  background: var(--accent);
+  text-align: left;

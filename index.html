@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Temporal Map - Climate Action & Respiratory Health</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to main content</a>
+
+  <header class="site-header">
+    <h1>Climate Action For Improved Respiratory Health: Mapping Benefits Across Scotland’s NHS Boards</h1>
+  </header>
+
+  <main id="main" class="layout">
+    <!-- left panel: map and controls -->
+    <section class="map-panel">
+      <h2 id="map-heading" class="visually-hidden">Temporal Map</h2>
+
+      <figure class="map-figure">
+        <img
+          id="mapImage"
+          src="frames/atlas0000.png"
+          alt="Map of Scotland showing yearly projected monetary value saved for each NHS board due to respiratory health co-benefits."
+        />
+        <figcaption id="yearLabel">
+          Year: <span data-year>2025</span>
+        </figcaption>
+      </figure>
+
+      <!-- slider and buttons -->
+      <form class="controls" onsubmit="return false;">
+        <fieldset>
+          <legend id="controlsLegend">Year selection and playback controls</legend>
+
+          <div class="slider-row">
+            <label for="frameSlider" id="sliderLabel">
+              Select year
+            </label>
+            <input
+              type="range"
+              id="frameSlider"
+              name="frameSlider"
+              min="0"
+              max="25"
+              value="0"
+            />
+            <div id="sliderHelp" class="help-text">
+              Use left/right arrow keys to move year. Press Home/End to jump.
+            </div>
+          </div>
+
+          <div class="buttons-row">
+            <button id="firstBtn" type="button">⏮ Start</button>
+            <button id="prevBtn" type="button">◀ Previous</button>
+            <button id="nextBtn" type="button">Next ▶</button>
+            <button id="lastBtn" type="button">End ⏭</button>
+          </div>
+        </fieldset>
+      </form>
+    </section>
+
+    <!-- right panel: story -->
+    <aside class="story">
+      <h2 id="story-heading">Why this matters</h2>
+      <p>
+        Most people think of climate action as something distant, abstract, or costly. But data relating to the
+        co-benefits of respiratory health improvement in Scotland shows a simple truth:
+        Improving air quality, dampness, and indoor temperatures protects our lungs, strengthens immune resilience,
+        and reduces preventable illness long before it reduces carbon emissions.
+      </p>
+      <p>
+        Using the co-benefits atlas data provided by the team at Edinburgh Climate Change Institute (ECCI),
+        I mapped five co-benefit pathways that translate environmental improvement directly into respiratory
+        health improvement and NHS savings:
+      </p>
+
+      <div class="table-wrapper" role="region">
+        <table>
+          <thead>
+            <tr>
+              <th scope="col">Co-benefit</th>
+              <th scope="col">Damage pathway</th>
+              <th scope="col">Damage type</th>
+              <th scope="col">Value</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Air quality</td>
+              <td>Reduced mortality</td>
+              <td>Health</td>
+              <td>Lower air pollution reduces respiratory disease and premature deaths.</td>
+            </tr>
+            <tr>
+              <td>Dampness</td>
+              <td>NHS</td>
+              <td>Non-health</td>
+              <td>Fewer GP visits and reduced NHS treatment costs for respiratory and other infections.</td>
+            </tr>
+            <tr>
+              <td>Dampness</td>
+              <td>QALY</td>
+              <td>Health</td>
+              <td>Healthier indoor environments improve quality of life by reducing damp-related illness.</td>
+            </tr>
+            <tr>
+              <td>Excess cold</td>
+              <td>NHS</td>
+              <td>Non-health</td>
+              <td>Warmer homes reduce admissions and costs for cold-related illness.</td>
+            </tr>
+            <tr>
+              <td>Excess cold</td>
+              <td>QALY</td>
+              <td>Health</td>
+              <td>Better heating prevents cold-related issues and supports immunity and quality of life.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <p>
+        Across NHS boards, these benefits accumulate year-by-year. Between 2025-2050, the monetary value of avoided
+        respiratory illness from cleaner air, lower mould exposure, and warmer homes shows that climate action is
+        also health action. Climate-aligned interventions can deliver reductions in mortality, GP demand, and 
+		hospital admissions - reducing NHS burden through 2050 and beyond.
+      </p>
+    </aside>
+  </main>
+
+  <footer class="site-footer">
+    <section class="method">
+      <h2 id="method-heading">About the visualisation</h2>
+      <p>
+        Submission for The Data Lab Community’s Data Visualisation Competition 2025.
+        The temporal map display was created using QGIS and shows the yearly projected monetary value saved
+        for each NHS board in Scotland from co-benefits related to respiratory health.
+      </p>
+      <p>
+        The value was obtained by calculating the yearly projected monetary benefit of the selected co-benefit/damage pathways of each data zone by multiplying
+        by its population size, then summing across data zones within each NHS board area.
+      </p>
+      <p>by Shannon Martin</p>
+    </section>
+  </footer>
+
+  <script>
+    (function () {
+      const slider = document.getElementById("frameSlider");
+      const img = document.getElementById("mapImage");
+      const yearLabel = document.getElementById("yearLabel");
+      const yearSpan = yearLabel.querySelector("[data-year]");
+
+      const baseYear = 2025;
+      const pad4 = (n) => String(n).padStart(4, "0");
+
+      function updateUI() {
+        const frame = Number(slider.value);
+        const frameStr = pad4(frame);
+        const year = baseYear + frame;
+
+        // update image and label
+        img.src = `frames/atlas${frameStr}.png`;
+        yearSpan.textContent = String(year);
+      }
+
+      // initial update in case DOM loads with defaults
+      updateUI();
+
+      // input handlers
+      slider.addEventListener("input", updateUI);
+
+      document.getElementById("nextBtn").addEventListener("click", () => {
+        if (+slider.value < +slider.max) {
+          slider.value = +slider.value + 1;
+          updateUI();
+        }
+      });
+
+      document.getElementById("prevBtn").addEventListener("click", () => {
+        if (+slider.value > +slider.min) {
+          slider.value = +slider.value - 1;
+          updateUI();
+        }
+      });
+
+      document.getElementById("firstBtn").addEventListener("click", () => {
+        slider.value = slider.min;
+        updateUI();
+      });
+
+      document.getElementById("lastBtn").addEventListener("click", () => {
+        slider.value = slider.max;
+        updateUI();
+      });
+
+      // keyboard shortcuts
+      document.addEventListener("keydown", (e) => {
+        if (e.altKey || e.ctrlKey || e.metaKey) return;
+        if (e.key === "ArrowRight") {
+          e.preventDefault();
+          if (+slider.value < +slider.max) slider.value = +slider.value + 1;
+          updateUI();
+        } else if (e.key === "ArrowLeft") {
+          e.preventDefault();
+          if (+slider.value > +slider.min) slider.value = +slider.value - 1;
+          updateUI();
+        } else if (e.key.toLowerCase() === "home") {
+          slider.value = slider.min;
+          updateUI();
+        } else if (e.key.toLowerCase() === "end") {
+          slider.value = slider.max;
+          updateUI();
+        }
+      });
+    })();
+  </script>
+</body>
+</html>
